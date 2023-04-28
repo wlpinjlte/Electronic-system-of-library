@@ -2,6 +2,7 @@ import { useState } from "react";
 import styled from "styled-components";
 const Container=styled.div`
     background-color:white;
+    transition:0.5s;
 `
 const Button=styled.button`
     background-color:${props=>props.onStock==0? "grey":"default"};
@@ -12,7 +13,7 @@ function Book(props){
         addbook(id);
     }
     return(
-        <Container className="flex flex-col justify-between lg:w-1/5 md:w-5/12 w-3/4 my-9 rounded hover:scale-110 hover:shadow-white">
+        <Container className="flex flex-col justify-between lg:w-1/5 md:w-5/12 w-3/4 my-11 rounded hover:scale-110 hover:shadow-white">
             <img className="w-full w-auto rounded-t" src="https://ecsmedia.pl/c/quo-vadis-b-iext123393340.jpg"></img>
             <p className="text-2xl font-bold my-2 px-5">name: {title}</p>
             <p className="text-base mb-5 px-5">author: {author}</p>

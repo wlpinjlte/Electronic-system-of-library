@@ -21,5 +21,5 @@ function BookContext(props){
         </BooksContext.Provider>
     )
 }
-<p></p>
+
 export default BookContext;
