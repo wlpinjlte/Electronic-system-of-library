@@ -7,6 +7,8 @@ function BookContext(props){
     {title:"nazwa3",author:"mickiewicz3",describe:"Lorem ipsum dolor sit, amet consectetur adipisicing elit. Blanditiis ipsum quis cum delectus pariatur aliquid?",onStock:10,id:2},
     {title:"nazwa4",author:"mickiewicz4",describe:"Lorem ipsum dolor sit, amet consectetur adipisicing elit. Blanditiis ipsum quis cum delectus pariatur aliquid?",onStock:10,id:3},
     {title:"nazwa5",author:"mickiewicz5",describe:"Lorem ipsum dolor sit, amet consectetur adipisicing elit. Blanditiis ipsum quis cum delectus pariatur aliquid?",onStock:10,id:4}])
+    //title author describe onStock id photo price
+    //id title author 
     const {children}=props;
     const addBook=(id)=>{
         const book=booksArray.filter(a=>a.id===id)[0]
@@ -16,7 +18,7 @@ function BookContext(props){
         booksArraySet([...booksArray.filter(a=>a.id!==id),{...book}].sort((a,b)=>a.id-b.id))
     }
     return(
-        <BooksContext.Provider value={{booksArray:booksArray,add:addBook}}>
+        <BooksContext.Provider value={{booksArray:booksArray,addBook:addBook}}>
             {children}
         </BooksContext.Provider>
     )

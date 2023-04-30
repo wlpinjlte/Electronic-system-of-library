@@ -3,7 +3,7 @@ import { UsersContext } from "../../contexts/User.context";
 function Navbar(){
     const {userName,isLogged,logIn,logOut}=useContext(UsersContext)
     return(
-        <div className="Navbar w-full h-12 bg-rose-600 flex justify-center items-center text-white">
+        <div className="Navbar w-full h-12 bg-orange-700 flex justify-center items-center text-white">
             <div className="">
                 Menu
             </div>

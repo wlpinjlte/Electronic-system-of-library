@@ -5,9 +5,9 @@ const bodyPraser = require('body-parser')
 
 const cors=require("cors")
 
-mongoose.connect('mongodb+srv://admin:admin@kurs.hwy4owx.mongodb.net/?retryWrites=true&w=majority')
+mongoose.connect('mongodb+srv://admin:admin@kurs.hwy4owx.mongodb.net/Projekt_bazy?retryWrites=true&w=majority')
 const db= mongoose.connection
-
+const booksRouter=require("./routes/Book.js")
 db.on('error',(err)=>{
     console.log(err)
 })
@@ -29,3 +29,5 @@ const PORT = process.env.port || 3000
 app.listen(PORT,()=>{
     console.log(`server running on port ${PORT}`)
 })
+
+app.use('/api/books',booksRouter);
