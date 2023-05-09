@@ -1,5 +1,7 @@
 import { useContext } from "react";
 import { UsersContext } from "../../contexts/User.context";
+import { Link } from "react-router-dom";
+import 'bootstrap/dist/css/bootstrap.min.css'
 function Navbar(){
     const {userName,isLogged,logIn,logOut}=useContext(UsersContext)
     return(
@@ -10,16 +12,14 @@ function Navbar(){
             <div className="flex items-center absolute right-0">
                 <div className="mx-3 aling-self-center">{userName}</div>
                 {!isLogged&&
-                    <button className='bg-sky-500 p-3 rounded hover:bg-sky-300 duration-200' onClick={()=>{logIn("userId","password")}}>
+                    <Link style={{padding:"0.75rem",textDecoration:"none"}} className='bg-sky-500 rounded hover:bg-sky-300 duration-200 text-white' to="/login" >
                         LogIn
-                    </button>}
+                    </Link>}
                 {isLogged&&
-                    <button className='bg-sky-500 p-3 rounded hover:bg-sky-300 duration-200' onClick={logOut}>
+                    <button style={{padding:"0.75rem"}} className='bg-sky-500 rounded hover:bg-sky-300 duration-200' onClick={logOut}>
                         LogOut
                     </button>}
             </div>
-            
-            
         </div>
     )
 }

@@ -33,14 +33,18 @@ const getOne=(req,res,next)=>{
 }
 //title author description onStock id photo price
 const add=(req,res,next)=>{
+    // console.log(req)
     let book=new Books({
         title:req.body.title,
         author:req.body.author,
         description:req.body.description,
         onStock:req.body.onStock,
-        photo:req.body.photo,
+        photo:req.body.photo? req.body.photo:"",
         price:req.body.price
     })
+    if(req.file){
+        book.photo=req.file.path
+    }
     book.save()
     .then(response=>{
         res.json({...response._doc})

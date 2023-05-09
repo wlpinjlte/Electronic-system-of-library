@@ -27,7 +27,7 @@ function BookContext(props){
         booksArraySet(bookToUpadte)
     }
     return(
-        <BooksContext.Provider value={{booksArray:booksArray,addBook:addBook,isLoading:isLoading}}>
+        <BooksContext.Provider value={{booksArray:booksArray,addBook:addBook,isLoading:isLoading,booksArraySet:booksArraySet}}>
             {children}
         </BooksContext.Provider>
     )
