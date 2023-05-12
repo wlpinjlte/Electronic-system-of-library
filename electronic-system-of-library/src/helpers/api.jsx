@@ -13,8 +13,8 @@ export const addBookToServer=(book)=>{
     })
 }
 
-export const getImage=(url)=>{
-    return axios.get(`${URL}/getImage/${url}`);
+export const getOne=(id)=>{
+    return axios.get({_id:id},`${URL}/getOne`);
 }
 
 export const deleteBookFromServer=(id)=>{

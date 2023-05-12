@@ -1,57 +1,90 @@
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { addBookToServer } from "../../helpers/api"
-import {useNavigate} from 'react-router-dom'
+import {useNavigate, useParams} from 'react-router-dom'
 import { BooksContext } from "../../contexts/Books.context"
-function BookForm(){
+import { useForm } from "react-hook-form";
+import {getOne}from "../../helpers/api.jsx"
+function BookForm(props){
     const {booksArray,booksArraySet}=useContext(BooksContext)
     const navigate=useNavigate()
-    const[formData,formDataSet]=useState({
-        title:"",
-        author:"",
-        description:"",
-        onStock:0,
-        price:0,
-        photo:""
-    })
-    const [file,fileSet]=useState()
-    const update=(event)=>{
-        formDataSet({...formData,[event.target.name]:event.target.value})
-        console.log(formData)
-    }
-    const submit=async(event)=>{
-        event.preventDefault()
+    const submit=async(values)=>{
+        console.log(values)
         const bodyFormData = new FormData();
-        bodyFormData.append('file', file);
-        Object.keys(formData).forEach(key=>{
-            bodyFormData.append(key,formData[key])
+        bodyFormData.append('file', values.file[0]);
+        Object.keys(values).forEach(key=>{
+            if(key!='file'){
+            bodyFormData.append(key,values[key])}
         })
         let book=await addBookToServer(bodyFormData)
+        console.log(book)
         if(book){
             booksArraySet([...booksArray,book.data])
             navigate("/")
         }
-        console.log(book)
     }
-    const uploadFileHandler=async(e)=>{
-        fileSet(e.target.files[0])
-    }
+    const {handleSubmit,register,formState: { errors }}=useForm()
+    console.log(errors)
+    const isPhoto=false
     return(
         <div className="BookForm flex justify-center items-center">
-            <form className="w-1/2 flex justify-center flex-col my-20 p-5 bg-white rounded text-left">
-                <label className="form-label text-2xl text-center">Trip Form</label>
-                <label className="form-label text-mb">Name:</label>
-                <input className="form-control mb-2" name="title" onChange={update}></input>
+            <form className="lg:w-1/3 md:w-1/2 w-3/4 flex justify-center flex-col my-20 p-5 bg-white rounded text-left" onSubmit={handleSubmit(submit)}>
+                <h2 className="text-center">Trip Form</h2>
+                <label className="form-label text-mb" >Name:</label>
+                <input className="form-control mb-2" name="title" {...register("title",{
+                    required:{
+                    value:true,
+                    message:"Pole wymagane"
+                }})}></input>
+                {errors.title&&<p className="text-red-600">{errors.title.message}</p>}
+
                 <label className="form-label text-mb">Author:</label>
-                <input className="form-control mb-2" name="author" onChange={update}></input>
+                <input className="form-control mb-2" name="author" {...register("author",{
+                    required:{
+                    value:true,
+                    message:"Pole wymagane"
+                }})}></input>
+                {errors.author&&<p className="text-red-600">{errors.author.message}</p>}
+
                 <label className="form-label text-mb">Description:</label>
-                <input className="form-control mb-2" name="description" onChange={update}></input>
+                <input className="form-control mb-2" name="description" {...register("description",{
+                    required:{
+                    value:true,
+                    message:"Pole wymagane"
+                }})}></input>
+                {errors.description&&<p className="text-red-600">{errors.description.message}</p>}
+
                 <label className="form-label text-mb">OnStock:</label>
-                <input className="form-control mb-2" name="onStock" onChange={update}></input>
+                <input className="form-control mb-2" name="onStock" {...register("onStock",{
+                    required:{
+                        value:true,
+                        message:"Pole wymagane"
+                    },
+                    pattern:{
+                        value:/^[1-9]+[0-9]*$/,
+                        message:"tylko liczby"
+                    }})}></input>
+                {errors.onStock&&<p className="text-red-600">{errors.onStock.message}</p>}
+
                 <label className="form-label text-mb">Price:</label>
-                <input className="form-control mb-2" name="price" onChange={update}></input>
+                <input className="form-control mb-2" name="price" {...register("price",{
+                    required:{
+                        value:true,
+                        message:"Pole wymagane"
+                    },
+                    pattern:{
+                        value:/^[1-9]+[0-9]*$/,
+                        message:"tylko liczby"
+                    }})}></input>
+                {errors.price&&<p className="text-red-600">{errors.price.message}</p>}
+
                 <label className="form-label text-mb">Photo:</label>
-                <input className="form-control mb-2" type="file" name="photo" onChange={uploadFileHandler} accept="image/png, image/jpeg, image/jpg"></input>
-                <button onClick={submit} className="p-2 bg-sky-500 rounded w-full self-center text-white">submit</button>
+                <input className="form-control mb-2" type="file" name="file" accept="image/png, image/jpeg, image/jpg" {...register("file",{
+                    required:{
+                        value:(true&&!isPhoto),
+                        message:"pole wymagane"}})}></input>
+                 {errors.file&&<p className="text-red-600">{errors.file.message}</p>}
+
+                <button className="p-2 bg-sky-500 rounded w-full self-center text-white" type='submit'>submit</button>
             </form>
         </div> 
     )
