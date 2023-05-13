@@ -22,6 +22,7 @@ const register = (req, res, next) => {
     .catch(error => {
         res.json({message: 'Error!'})
     })
+}
 
 const login = (req, res, next) => {
     var email = req.body.email
@@ -56,22 +57,21 @@ const login = (req, res, next) => {
     })
 }
 
-    const refreshToken = (req, res, next) => {
-        const refreshToken = req.body.refreshToken
-        jwt.verify(refreshToken, 'secretRefreshToken', function(err, decode) {
-            if(err) {
-                res.json({error: err})
-            }
-            else {
-                let token = jwt.sign({name: decode.name}, 'secretToken', {expiresIn: '30s'})
-                res.json({
-                    message: 'Token refreshed',
-                    token: token,
-                    refreshToken: refreshToken
-                })
-            }
-        })
-    }
-
-    module.exports = {register, login, refreshToken}
+const refreshToken = (req, res, next) => {
+    const refreshToken = req.body.refreshToken
+    jwt.verify(refreshToken, 'secretRefreshToken', function(err, decode) {
+        if(err) {
+            res.json({error: err})
+        }
+        else {
+            let token = jwt.sign({name: decode.name}, 'secretToken', {expiresIn: '30s'})
+            res.json({
+                message: 'Token refreshed',
+                token: token,
+                refreshToken: refreshToken
+            })
+        }
+    })
 }
+
+module.exports = {register, login, refreshToken}
