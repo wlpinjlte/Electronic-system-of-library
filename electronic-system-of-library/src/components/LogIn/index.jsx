@@ -24,7 +24,7 @@ function LogIn(props){
                     {errors.email&&<p className="text-red-600">{errors.email.message}</p>}
                 </div>
 
-                <div class="form-outline mb-2">
+                <div className="form-outline mb-2">
                     <label className="form-label" htmlFor="form2Example2">Password</label>
                     <input type="password" id="form2Example2" className="form-control" {...register("password",{
                         required:{

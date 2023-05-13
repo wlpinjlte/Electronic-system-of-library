@@ -8,6 +8,8 @@ const cors=require("cors")
 mongoose.connect('mongodb+srv://admin:admin@kurs.hwy4owx.mongodb.net/Projekt_bazy?retryWrites=true&w=majority')
 const db= mongoose.connection
 const booksRouter=require("./routes/Book.js")
+const authRouter = require("./routes/Auth.js")
+
 db.on('error',(err)=>{
     console.log(err)
 })
@@ -31,3 +33,4 @@ app.listen(PORT,()=>{
 })
 
 app.use('/api/books',booksRouter);
+app.use('/api', authRouter)
