@@ -55,6 +55,7 @@ const add=(req,res,next)=>{
 }
 
 const update=(req,res,next)=>{
+    console.log(req)
     const id=req.body._id
     let book={
         title:req.body.title,
@@ -64,9 +65,12 @@ const update=(req,res,next)=>{
         photo:req.body.photo,
         price:req.body.price
     }
+    if(req.file){
+        book.photo=req.file.path
+    }
     Books.findByIdAndUpdate(id,{$set:book})
     .then(response=>{
-        res.json({...book})
+        res.json({...book,_id:id})
     })
     .catch(err=>{
         res.json({message:"Error!"})

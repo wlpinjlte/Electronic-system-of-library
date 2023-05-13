@@ -3,6 +3,7 @@ import styled from "styled-components";
 import {UsersContext} from '../../contexts/User.context'
 import { deleteBookFromServer } from "../../helpers/api";
 import { BooksContext } from "../../contexts/Books.context";
+import { useNavigate } from "react-router-dom";
 const Container=styled.div`
     background-color:white;
     transition:0.5s;
@@ -11,6 +12,7 @@ const Button=styled.button`
     background-color:${props=>props.onStock==0? "grey":"default"};
 `
 function Book(props){
+    const navigate=useNavigate()
     const {isAdmin}=useContext(UsersContext)
     const {booksArray,booksArraySet}=useContext(BooksContext)
     const {title,author,description,onStock,addbook,_id,photo}=props
@@ -32,7 +34,7 @@ function Book(props){
             <Button className="p-2 bg-sky-500 rounded w-1/2 self-center text-white" onStock={onStock} onClick={addToCart} disabled={onStock===0}>dodaj do koszyka</Button>
             <p className="mb-3 mt-1 text-xs">onStock:{onStock}</p>
             {isAdmin&&<button onClick={deleteBook} className="absolute right-2 top-0 font-bold text-2xl text-white">X</button>}
-            {isAdmin&&<i className="fa-solid fa-pencil absolute left-2 top-0 font-bold text-2xl text-white"></i>}
+            {isAdmin&&<i className="fa-solid fa-pencil absolute left-2 top-0 font-bold text-2xl text-white" onClick={()=>{navigate(`/edit/${_id}`)}}></i>}
         </Container>
     )
 }

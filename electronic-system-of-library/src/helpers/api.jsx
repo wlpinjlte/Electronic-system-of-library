@@ -14,9 +14,18 @@ export const addBookToServer=(book)=>{
 }
 
 export const getOne=(id)=>{
-    return axios.get({_id:id},`${URL}/getOne`);
+    return axios.post(`${URL}/getOne`,{_id:id});
 }
 
 export const deleteBookFromServer=(id)=>{
     return axios.post(`${URL}/destroy`,{_id:id})
+}
+
+export const updateBookOnServer=(book)=>{
+    console.log(book)
+    return axios.post(`${URL}/update`,book,{
+        headers:{
+            'Content-Type': 'multipart/form-data'
+        }
+    })
 }

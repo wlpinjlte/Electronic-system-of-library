@@ -18,6 +18,7 @@ function App() {
               <Route path='/' element={<BookList></BookList>}></Route>
               <Route path='/add' element={<BookForm></BookForm>}></Route>
               <Route path='/login' element={<LogIn></LogIn>}></Route>
+              <Route path='/edit/:bookId' element={<BookForm isEdit={true}></BookForm>}></Route>
             </Routes>
           </BrowserRouter>
         </UserContext>
