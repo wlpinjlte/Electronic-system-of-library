@@ -6,6 +6,7 @@ import UserContext from './contexts/User.context';
 import Navbar from './components/Navbar';
 import BookForm from './components/BookForm';
 import LogIn from './components/LogIn';
+import Register from './components/Register';
 import {BrowserRouter,Routes,Route} from 'react-router-dom'
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
               <Route path='/add' element={<BookForm></BookForm>}></Route>
               <Route path='/login' element={<LogIn></LogIn>}></Route>
               <Route path='/edit/:bookId' element={<BookForm isEdit={true}></BookForm>}></Route>
+              <Route path='/register' element={<Register></Register>}></Route>
             </Routes>
           </BrowserRouter>
         </UserContext>

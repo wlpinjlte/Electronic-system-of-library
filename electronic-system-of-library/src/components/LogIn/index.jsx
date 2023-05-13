@@ -1,7 +1,9 @@
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 function LogIn(props){
     const {handleSubmit,register,formState: { errors }}=useForm();
+    const navigate=useNavigate();
     const submit=(values)=>{
         console.log(values)
     }
@@ -41,7 +43,7 @@ function LogIn(props){
 
                 <button type="submit" className="w-1/3 bg-sky-500 mb-4 p-2 rounded self-center text-white">Sign in</button>
                 <div className="text-center">
-                    <p>Not a member? <a href="#!">Register</a></p>
+                    <p>Not a member? <a href="" onClick={()=>navigate("/register")}>Register</a></p>
                 </div>
             </form>
         </div>
