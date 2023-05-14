@@ -1,11 +1,20 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { UsersContext } from "../../contexts/User.context"
 
 function LogIn(props){
-    const {handleSubmit,register,formState: { errors }}=useForm();
-    const navigate=useNavigate();
-    const submit=(values)=>{
-        console.log(values)
+    const {logIn} = useContext(UsersContext)
+    const {handleSubmit,register,formState: { errors }}=useForm()
+    const navigate = useNavigate()
+
+    const submit = async(values) => {
+        let result = await logIn(values)
+        console.log(result)
+        if(result === 'loggedIn'){
+            console.log('sdfgsdfg')
+            navigate('/')
+        }
     }
     return(
         <div className="LogIn flex justify-center items-center">

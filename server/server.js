@@ -33,4 +33,4 @@ app.listen(PORT,()=>{
 })
 
 app.use('/api/books',booksRouter);
-app.use('/api', authRouter)
+app.use('/api/users', authRouter)

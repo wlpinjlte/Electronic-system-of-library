@@ -77,7 +77,7 @@ const update=(req,res,next)=>{
     })
 }
 
-const destory=(req,res,next)=>{
+const destroy=(req,res,next)=>{
     let id=req.body._id
     Books.findByIdAndRemove(id)
     .then(response=>{
@@ -90,4 +90,4 @@ const destory=(req,res,next)=>{
     })
 }
 
-module.exports={getAll,getOne,add,destory,update}
+module.exports={getAll,getOne,add,destroy,update}

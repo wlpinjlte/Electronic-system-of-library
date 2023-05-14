@@ -1,9 +1,9 @@
 import { useContext, useEffect, useState } from "react"
-import { addBookToServer } from "../../helpers/api"
+import { addBookToServer } from "../../helpers/bookApi"
 import {useNavigate, useParams} from 'react-router-dom'
 import { BooksContext } from "../../contexts/Books.context"
 import { useForm } from "react-hook-form";
-import {getOne,updateBookOnServer}from "../../helpers/api.jsx"
+import {getOne,updateBookOnServer}from "../../helpers/bookApi.jsx"
 function BookForm(props){
     let {bookId}=useParams()
     const [object,objectSet]=useState(false)

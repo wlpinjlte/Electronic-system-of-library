@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import styled from "styled-components";
 import {UsersContext} from '../../contexts/User.context'
-import { deleteBookFromServer } from "../../helpers/api";
+import { deleteBookFromServer } from "../../helpers/bookApi";
 import { BooksContext } from "../../contexts/Books.context";
 import { useNavigate } from "react-router-dom";
 const Container=styled.div`

@@ -1,9 +1,9 @@
-const jwt = require('jsonwebtoken')
+import { verify } from 'jsonwebtoken'
 
 const authenticate = (req, res, next) => {
     try {
         const token = req.headers.authorization.split(' ')[1]
-        const decode = jwt.verify(token, 'secretToken')
+        const decode = verify(token, 'secretToken')
         req.user = decode
         next()
     }
@@ -17,4 +17,4 @@ const authenticate = (req, res, next) => {
     }
 }
 
-module.exports = authenticate
+export default authenticate

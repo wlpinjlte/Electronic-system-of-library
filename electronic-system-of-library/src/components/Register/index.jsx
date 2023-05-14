@@ -1,16 +1,26 @@
 import { useForm } from "react-hook-form";
+import { useContext } from "react";
+import { UsersContext } from "../../contexts/User.context"
+import { useNavigate } from "react-router-dom";
 
 function Register(){
     const {handleSubmit,register,formState: { errors },watch}=useForm();
-    const submit=(values)=>{
-        console.log(values)
+    const {register: signUp} = useContext(UsersContext)
+    const navigate = useNavigate()
+
+    const submit = async(values)=>{
+        let result = await signUp(values)
+        console.log(result)
+        if(result === 'registered'){
+            navigate('/login')
+        }
     }
     return(
         <div className="Register flex justify-center items-center">
             <form className="lg:w-1/3 md:w-1/2 w-3/4 flex justify-center flex-col mt-20 p-5 bg-white rounded text-left" onSubmit={handleSubmit(submit)}>
                 <h2 className="self-center">Register Form</h2>
                 <div className="form-outline mb-2">
-                    <label className="form-label" htmlFor="form2Example1">Nick name</label>
+                    <label className="form-label" htmlFor="form2Example1">Name</label>
                     <input type="name" id="form2Example1" className="form-control"  {...register("name",{
                         required:{
                             value:true,
