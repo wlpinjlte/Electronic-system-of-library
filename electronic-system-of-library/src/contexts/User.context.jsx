@@ -6,9 +6,10 @@ export const UsersContext=createContext();
 function UserContext(props){
     const [userName,userNameSet]=useState("userName");
     const [isLogged,isLoggedSet]=useState(false);
-    let isAdmin = true
-    let token = null
-    let refreshToken = null
+    const [token, tokenSet]=useState("");
+    const [refreshToken, refreshTokenSet]=useState("");
+
+    const [isAdmin, isAdminSet] = useState(false)
     const {children}=props
 
     const logIn = async(values) => {
@@ -16,17 +17,22 @@ function UserContext(props){
         console.log(response.data)
         if(response.data.result === 'loggedIn'){
             isLoggedSet(true)
-            token = response.data.token
-            refreshToken = response.data.refreshToken
+            tokenSet(response.data.token)
+            refreshTokenSet(response.data.refreshToken)
             userNameSet(response.data.name)
-            isAdmin = response.data.isAdmin
+            isAdminSet(response.data.isAdmin)
+            console.log(token)
         }
+
+        console.log(token)
+        // console.log(token2)
         return response.data.result
     }
 
     const logOut=()=>{
         console.log("logout")
         isLoggedSet(false)
+        isAdminSet(false)
     }
 
     const register = async(data) => {
@@ -35,7 +41,7 @@ function UserContext(props){
     }
 
     return (
-        <UsersContext.Provider value={{logIn:logIn,logOut:logOut,register:register,userName:userName,isLogged:isLogged,isAdmin:isAdmin}}>
+        <UsersContext.Provider value={{logIn:logIn,logOut:logOut,register:register,userName:userName,isLogged:isLogged,isAdmin:isAdmin, token:token, refreshToken:refreshToken, tokenSet:tokenSet}}>
             {children}
         </UsersContext.Provider>
     )

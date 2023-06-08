@@ -1,14 +1,15 @@
-import { verify } from 'jsonwebtoken'
+const jwt = require('jsonwebtoken')
 
 const authenticate = (req, res, next) => {
     try {
         const token = req.headers.authorization.split(' ')[1]
-        const decode = verify(token, 'secretToken')
+        console.log(token)
+        const decode = jwt.verify(token, 'secretToken')
         req.user = decode
         next()
     }
-    catch {
-        if(error.name == "TokenExpiredError"){
+    catch(error) {
+        if(error.name == "TokenExpiredError"){            
             res.json({message: 'Token expired!'})
         }
         else {
@@ -17,4 +18,4 @@ const authenticate = (req, res, next) => {
     }
 }
 
-export default authenticate
+module.exports = authenticate

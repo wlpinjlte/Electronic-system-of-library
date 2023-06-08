@@ -9,6 +9,6 @@ export const logInToServer = (data) => {
     return axios.post(`${URL}/login`, data)
 }
 
-export const refreshTokenToServer = () => {
-    return axios.post(`${URL}/refresh-token`)
+export const refreshTokenToServer = (refreshToken) => {
+    return axios.post(`${URL}/refresh-token`, refreshToken)
 }

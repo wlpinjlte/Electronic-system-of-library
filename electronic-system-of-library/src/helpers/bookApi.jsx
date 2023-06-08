@@ -1,14 +1,16 @@
 import axios from "axios"
+
 const URL='http://localhost:3000/api/books'
 
 export const getAll=()=>{
     return axios.get(`${URL}/`)
 }
 
-export const addBookToServer=(book)=>{
+export const addBookToServer=(book, token)=>{
     return axios.post(`${URL}/add`,book,{
         headers:{
-            'Content-Type': 'multipart/form-data'
+            'Content-Type': 'multipart/form-data',
+            'Authorization': 'Bearer ' + token
         }
     })
 }
@@ -17,15 +19,20 @@ export const getOne=(id)=>{
     return axios.post(`${URL}/getOne`,{_id:id});
 }
 
-export const deleteBookFromServer=(id)=>{
-    return axios.post(`${URL}/destroy`,{_id:id})
+export const deleteBookFromServer=(id, token)=>{
+    return axios.post(`${URL}/destroy`,{_id:id},{
+        headers:{
+            'Authorization': 'Bearer ' + token
+        }
+    })
 }
 
-export const updateBookOnServer=(book)=>{
+export const updateBookOnServer=(book, token)=>{
     console.log(book)
     return axios.post(`${URL}/update`,book,{
         headers:{
-            'Content-Type': 'multipart/form-data'
+            'Content-Type': 'multipart/form-data',
+            'Authorization': 'Bearer ' + token
         }
     })
 }

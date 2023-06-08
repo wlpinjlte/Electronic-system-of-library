@@ -68,7 +68,7 @@ const logIn = (req, res, next) => {
                 }
 
                 if(result) {
-                    let token = jwt.sign({name: user.email}, 'secretToken', {expiresIn: '30s'})
+                    let token = jwt.sign({name: user.email}, 'secretToken', {expiresIn: '10s'})
                     let refreshToken = jwt.sign({name: user.email}, 'secretRefreshToken', {expiresIn: '24h'})
 
                     res.json({

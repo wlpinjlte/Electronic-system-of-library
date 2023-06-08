@@ -3,11 +3,12 @@ const router=express.Router()
 
 const BooksController=require("../controllers/BookController")
 const upload=require("../middleware/upload")
+const authenticate = require("../middleware/authenticate")
 
-router.get('/',BooksController.getAll)
-router.post('/getOne',BooksController.getOne)
-router.post('/add',upload.single('file'),BooksController.add)
-router.post('/destroy',BooksController.destroy)
-router.post('/update',upload.single('file'),BooksController.update)
+router.get('/', BooksController.getAll)
+router.post('/getOne', BooksController.getOne)
+router.post('/add', authenticate, upload.single('file'), BooksController.add)
+router.post('/destroy', authenticate, BooksController.destroy)
+router.post('/update', authenticate, upload.single('file'), BooksController.update)
 
 module.exports=router

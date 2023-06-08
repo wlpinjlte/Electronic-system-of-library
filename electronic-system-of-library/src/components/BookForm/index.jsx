@@ -4,10 +4,13 @@ import {useNavigate, useParams} from 'react-router-dom'
 import { BooksContext } from "../../contexts/Books.context"
 import { useForm } from "react-hook-form";
 import {getOne,updateBookOnServer}from "../../helpers/bookApi.jsx"
+import { UsersContext } from "../../contexts/User.context"
+import { refreshTokenToServer } from "../../helpers/userApi";
+
+
 function BookForm(props){
     let {bookId}=useParams()
     const [object,objectSet]=useState(false)
-    console.log(bookId)
     useEffect(()=>{
         if(bookId){
             const DownloadData=async()=>{
@@ -19,6 +22,7 @@ function BookForm(props){
     },[])
     const {booksArray,booksArraySet}=useContext(BooksContext)
     const navigate=useNavigate()
+    const {token, refreshToken, tokenSet} = useContext(UsersContext)
 
     const addBook=async(values)=>{
         const bodyFormData = new FormData();
@@ -27,11 +31,20 @@ function BookForm(props){
             if(key!='file'){
             bodyFormData.append(key,values[key])}
         })
-        let book=await addBookToServer(bodyFormData)
+        let book = await addBookToServer(bodyFormData, token)
+        if(book.data.message==="Token expired!"){
+            let response = await refreshTokenToServer({refreshToken: refreshToken})
+            tokenSet(response.data.token)
+            book = await addBookToServer(bodyFormData, response.data.token)
+        }
+        else if(book.data.message){
+            book = null
+        }
         return book
     }
 
     const updateBook=async(values)=>{
+        console.log(token);
         const bodyFormData = new FormData();
         if(values.file){
             bodyFormData.append('file', values.file[0]);
@@ -42,7 +55,15 @@ function BookForm(props){
             if(key!='file'){
             bodyFormData.append(key,values[key])}
         })
-        let book=await updateBookOnServer(bodyFormData)
+        let book=await updateBookOnServer(bodyFormData, token)
+        if(book.data.message==="Token expired!"){
+            let response = await refreshTokenToServer({refreshToken: refreshToken})
+            tokenSet(response.data.token)
+            book = await updateBookOnServer(bodyFormData, response.data.token)
+        }
+        else if(book.data.message){
+            book = null
+        }
         return book
     }
 
@@ -59,6 +80,9 @@ function BookForm(props){
             booksArraySet([...booksArray.filter(a=>a._id!=bookId),book.data])
             navigate("/")
         }
+        else{
+            navigate("/login")
+        }
     }
 
     const {handleSubmit,register,formState: { errors },reset}=useForm()
@@ -71,8 +95,8 @@ function BookForm(props){
     return(
         <div className="BookForm flex justify-center items-center">
             <form className="lg:w-1/3 md:w-1/2 w-3/4 flex justify-center flex-col my-20 p-5 bg-white rounded text-left" onSubmit={handleSubmit(submit)}>
-                <h2 className="text-center">Trip Form</h2>
-                <label className="form-label text-mb" >Name:</label>
+                <h2 className="text-center">Book Form</h2>
+                <label className="form-label text-mb" >Title:</label>
                 <input className="form-control mb-2" name="title" {...register("title",{
                     required:{
                     value:true,
