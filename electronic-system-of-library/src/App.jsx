@@ -7,6 +7,7 @@ import Navbar from './components/Navbar';
 import BookForm from './components/BookForm';
 import LogIn from './components/LogIn';
 import Register from './components/Register';
+import Basket from './components/Basket';
 import {BrowserRouter,Routes,Route} from 'react-router-dom'
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
               <Route path='/login' element={<LogIn></LogIn>}></Route>
               <Route path='/edit/:bookId' element={<BookForm isEdit={true}></BookForm>}></Route>
               <Route path='/register' element={<Register></Register>}></Route>
+              <Route path = '/basket' element={<Basket></Basket>}></Route>
             </Routes>
           </BrowserRouter>
         </UserContext>

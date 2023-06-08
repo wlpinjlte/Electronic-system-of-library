@@ -20,7 +20,16 @@ function Book(props){
     const {booksArray,booksArraySet}=useContext(BooksContext)
     const {title,author,description,onStock,addbook,_id,photo,price}=props
     const addToCart=()=>{
-        addbook(_id);
+        const book = {
+            id: _id,
+            title: title,
+            author: author,
+            onStock: onStock,
+            photo: photo,
+            price: price,
+            quantity: 1
+        }
+        addbook(book);
     }
     const deleteBook=async(token)=>{
         console.log(token)

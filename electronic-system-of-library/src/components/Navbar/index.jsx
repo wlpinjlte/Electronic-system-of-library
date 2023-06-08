@@ -8,6 +8,7 @@ function Navbar(){
         <div className="Navbar w-full h-12 bg-orange-700 flex justify-center items-center text-white">
             {isAdmin&&
                 <Link className="absolute left-0 text-3xl text-white font-bold flex justify-center items-center w-12" style={{textDecoration:"none"}} to="/add">+</Link>}
+            <Link className="absolute left-40 text-white flex justify-center items-center" style={{textDecoration:"none"}} to="/basket">basket</Link>
             <div className="">
                 Menu
             </div>
