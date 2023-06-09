@@ -10,5 +10,6 @@ router.post('/getOne', BooksController.getOne)
 router.post('/add', authenticate, upload.single('file'), BooksController.add)
 router.post('/destroy', authenticate, BooksController.destroy)
 router.post('/update', authenticate, upload.single('file'), BooksController.update)
+router.post('/addOpinion', BooksController.addOpinion)
 
 module.exports=router

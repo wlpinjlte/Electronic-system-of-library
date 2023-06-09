@@ -1,5 +1,6 @@
 // const { response } = require("express")
 // const { response } = require("express")
+const { response } = require("express")
 const Books=require("../models/Books")
 
 
@@ -40,7 +41,8 @@ const add=(req,res,next)=>{
         description:req.body.description,
         onStock:req.body.onStock,
         photo:req.body.photo? req.body.photo:"",
-        price:req.body.price
+        price:req.body.price,
+        opinions:[]
     })
     if(req.file){
         book.photo=req.file.path
@@ -63,7 +65,7 @@ const update=(req,res,next)=>{
         description:req.body.description,
         onStock:req.body.onStock,
         photo:req.body.photo,
-        price:req.body.price
+        price:req.body.price,
     }
     if(req.file){
         book.photo=req.file.path
@@ -90,4 +92,18 @@ const destroy=(req,res,next)=>{
     })
 }
 
-module.exports={getAll,getOne,add,destroy,update}
+const addOpinion=(req,res,next)=>{
+    let id=req.body._id
+    let opinion={
+        content:req.body.content,
+        rating:req.body.rating
+    }
+    Books.updateOne({_id:id},{$push:{opinions:opinion}})
+    .then(response=>{
+        res.json({...opinion})
+    })
+    .catch(err=>{
+        res.json({message:"Error!"})
+    })
+}
+module.exports={getAll,getOne,add,destroy,update,addOpinion}

@@ -36,3 +36,7 @@ export const updateBookOnServer=(book, token)=>{
         }
     })
 }
+
+export const addOpinionToBook=(opinion,id)=>{
+    return axios.post(`${URL}/addOpinion`,{...opinion,_id:id})
+}

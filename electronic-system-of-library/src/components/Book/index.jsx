@@ -37,7 +37,7 @@ function Book(props){
     }
     return(
         <Container className="flex flex-col justify-between lg:w-1/5 md:w-5/12 w-3/4 my-11 rounded hover:scale-105 hover:shadow-white relative">
-            <img className="w-full w-auto rounded-t h-80 object-cover" src={`http://localhost:3000/${photo}`}></img>
+            <img className="w-full w-auto rounded-t h-80 object-cover cursor-pointer" src={`http://localhost:3000/${photo}`} onClick={()=>{navigate(`/${_id}`)}}></img>
             <p className="text-2xl font-bold my-2 px-5">title: {title}</p>
             <p className="text-base px-5">author: {author}</p>
             <p className=" text-sm px-5">{description}</p>

@@ -7,7 +7,8 @@ const bookSchema=new Schema({
     description:{type:String},
     onStock:{type:Number},
     photo:{type:String},
-    price:{type:Number}
+    price:{type:Number},
+    opinions:[]
 },{timestamps:true})
 const books=mongoose.model('Books',bookSchema)
 module.exports=books
