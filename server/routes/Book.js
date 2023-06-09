@@ -11,5 +11,6 @@ router.post('/add', authenticate, upload.single('file'), BooksController.add)
 router.post('/destroy', authenticate, BooksController.destroy)
 router.post('/update', authenticate, upload.single('file'), BooksController.update)
 router.post('/addOpinion', BooksController.addOpinion)
+router.post('/buy', authenticate, BooksController.buy, BooksController.addToHistory)
 
 module.exports=router

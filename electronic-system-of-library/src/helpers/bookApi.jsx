@@ -40,3 +40,11 @@ export const updateBookOnServer=(book, token)=>{
 export const addOpinionToBook=(opinion,id)=>{
     return axios.post(`${URL}/addOpinion`,{...opinion,_id:id})
 }
+
+export const buyBooksFromServer = (books, token) => {
+    return axios.post(`${URL}/buy`, books,{
+        headers:{
+            'Authorization': 'Bearer ' + token
+        }
+    })
+}

@@ -76,7 +76,10 @@ function BookForm(props){
             book=await addBook(values)
         }
         if(book){
-            console.log(book)
+            console.log(book.data)
+            book.data.onStock = Number(book.onStock)
+            book.data.price = Number(book.price)
+            console.log(book.data)
             booksArraySet([...booksArray.filter(a=>a._id!=bookId),book.data])
             navigate("/")
         }

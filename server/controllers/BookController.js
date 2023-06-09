@@ -2,6 +2,8 @@
 // const { response } = require("express")
 const { response } = require("express")
 const Books=require("../models/Books")
+const Users=require("../models/User")
+// const { default: Book } = require("../../electronic-system-of-library/src/components/Book")
 
 
 const getAll=(req,res,next)=>{
@@ -107,4 +109,108 @@ const addOpinion=(req,res,next)=>{
     })
 }
 
-module.exports={getAll,getOne,add,destroy,update,addOpinion}
+// const buy = (req, res, next) => {
+//     for(let book of req.body){
+//         Books.findById(book.id)
+//         .then(response => {
+//             // return res.json(response)
+//             if(response.onStock < book.quantity){
+//                 return res.json({message: "Not enough units on stock"})
+//             }
+//         })
+//         .catch(err=>{
+//             return res.json({message:"Error!"})
+//         })
+//     }
+
+//     for(let book of req.body){
+//         Books.findByIdAndUpdate(book.id, {$inc: {onStock: - book.quantity}})
+//         .then(response => {
+//         })
+//         .catch(err=>{
+//             return res.json({message:"Error!"})
+//         })
+//     }
+
+//     // res.json({message: "Success"})
+// }
+
+const buy = (req, res, next) => {
+    const promises = []
+    for(let book of req.body){
+        const promise = Books.findById(book.id)
+        promises.push(promise)
+    }
+    Promise.all(promises).then(responses => {
+        for(let i in responses){
+            if(responses[i].onStock < req.body[i].quantity){
+                return res.json({message: "Not enough units on stock"})
+            }
+        }
+
+        for(let book of req.body){
+            Books.findByIdAndUpdate(book.id, {$inc: {onStock: - book.quantity}}).then()
+        }
+        next()
+    })
+}
+
+// const buy = (req, res, next) => {
+//     const promise = new Promise((resolve, reject) => {
+//         for(let book of req.body){
+//             Books.findById(book.id)
+//             .then(response => {
+//                 // return res.json(response)
+//                 if(response.onStock < book.quantity){
+//                     reject({message: "Not enough units on stock"})
+//                 }
+//             })
+//             .catch(err => {
+//                 reject({message:"Error!"})
+//             })
+//         }
+//         // resolve()
+//     })
+
+//     const promise2 = new Promise((resolve, reject) => {
+//         for(let book of req.body){
+//             Books.findByIdAndUpdate(book.id, {$inc: {onStock: - book.quantity}})
+//             .then(response => {
+//             })
+//             .catch(err => {
+//                 reject({message:"Error!"})
+//             })
+//         }
+//         resolve()
+//     })
+
+
+//     promise
+//     .then(x => {
+//         promise2
+//         .then(x => {
+//             res.json({message: "Success"})
+//         })
+//         .catch(err => {
+//             res.json(err)
+//         })
+//     })
+//     .catch(err=>{
+//         return res.json(err)
+//     })
+// }
+
+const addToHistory = (req, res, next) => {
+    const date = new Date()
+    for(const book of req.body){
+        delete book.id
+        delete book.onStock
+        book.date = date
+        console.log(book)
+        console.log(req.user)
+        Users.updateOne({email: req.user.name}, {$push:{history:book}}).then()
+    }
+    res.json({message: "Success"})
+}
+
+module.exports={getAll,getOne,add,destroy,update,addOpinion,buy, addToHistory}

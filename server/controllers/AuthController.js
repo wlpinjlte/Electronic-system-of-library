@@ -68,7 +68,7 @@ const logIn = (req, res, next) => {
                 }
 
                 if(result) {
-                    let token = jwt.sign({name: user.email}, 'secretToken', {expiresIn: '10s'})
+                    let token = jwt.sign({name: user.email}, 'secretToken', {expiresIn: '1h'})
                     let refreshToken = jwt.sign({name: user.email}, 'secretRefreshToken', {expiresIn: '24h'})
 
                     res.json({
@@ -107,7 +107,7 @@ const refreshToken = (req, res, next) => {
             })
         }
         else {
-            let token = jwt.sign({name: decode.name}, 'secretToken', {expiresIn: '30s'})
+            let token = jwt.sign({name: decode.name}, 'secretToken', {expiresIn: '1h'})
             res.json({
                 message: 'Token refreshed',
                 token: token,

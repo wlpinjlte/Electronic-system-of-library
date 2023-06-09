@@ -23,20 +23,6 @@ function BookContext(props){
     const {children}=props;
 
     const addBook=(book)=>{
-        // const bookToUpadte=booksArray.map(book=>book._id===id? {...book,onStock:book.onStock-1}:book)
-        // console.log(bookToUpadte)
-        // booksArraySet(bookToUpadte)
-        // booksArraySet([...booksArray.filter(a=>a._id!=bookId),book.data])
-        // let arr = [...basket]
-        // arr[id] = 1
-        // console.log(arr)
-        // basketSet(arr)
-        // console.log(basket)
-        // const clone = new Map(basket)
-        // clone.set(id, value)
-        // console.log(clone)
-        // basketSet(clone)
-        // console.log(basket)
         if(!basket.some(x => x.id === book.id)){
             basketSet([...basket, book])
             totalSet(total + book.price)

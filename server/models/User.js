@@ -4,8 +4,9 @@ const userSchema = new Schema({
     email: {type: String},
     password: {type: String},
     name: {type: String},
-    isAdmin: {type: Boolean}
+    isAdmin: {type: Boolean},
+    history: []
 }, {timestamps: true})
 
-const User = mongoose.model('User', userSchema)
-module.exports = User
+const users = mongoose.model('User', userSchema)
+module.exports = users
