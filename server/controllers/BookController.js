@@ -106,4 +106,5 @@ const addOpinion=(req,res,next)=>{
         res.json({message:"Error!"})
     })
 }
+
 module.exports={getAll,getOne,add,destroy,update,addOpinion}
