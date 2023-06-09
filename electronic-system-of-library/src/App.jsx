@@ -7,7 +7,11 @@ import Navbar from './components/Navbar';
 import BookForm from './components/BookForm';
 import LogIn from './components/LogIn';
 import Register from './components/Register';
+<<<<<<< HEAD
 import SingleBookPage from './components/SingleBookPage';
+=======
+import Basket from './components/Basket';
+>>>>>>> 437c91606b73ee4784ed33aa9e4550940627d5f5
 import {BrowserRouter,Routes,Route} from 'react-router-dom'
 function App() {
   return (
@@ -22,7 +26,11 @@ function App() {
               <Route path='/login' element={<LogIn></LogIn>}></Route>
               <Route path='/edit/:bookId' element={<BookForm isEdit={true}></BookForm>}></Route>
               <Route path='/register' element={<Register></Register>}></Route>
+<<<<<<< HEAD
               <Route path='/:bookId' element={<SingleBookPage></SingleBookPage>}></Route>
+=======
+              <Route path = '/basket' element={<Basket></Basket>}></Route>
+>>>>>>> 437c91606b73ee4784ed33aa9e4550940627d5f5
             </Routes>
           </BrowserRouter>
         </UserContext>
