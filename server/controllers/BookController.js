@@ -96,7 +96,8 @@ const addOpinion=(req,res,next)=>{
     let id=req.body._id
     let opinion={
         content:req.body.content,
-        rating:req.body.rating
+        rating:req.body.rating,
+        author:req.body.author
     }
     Books.updateOne({_id:id},{$push:{opinions:opinion}})
     .then(response=>{
