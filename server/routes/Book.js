@@ -13,5 +13,6 @@ router.post('/update', authenticate, upload.single('file'), BooksController.upda
 router.post('/addOpinion', BooksController.addOpinion)
 router.post('/buy', authenticate, BooksController.buy, BooksController.addToHistory)
 router.get('/getHistory', authenticate, BooksController.getHistory)
+router.post('/getWithFilters',BooksController.getWithFilters)
 
 module.exports=router

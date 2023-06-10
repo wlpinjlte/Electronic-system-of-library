@@ -228,3 +228,26 @@ const getHistory = (req, res, next) => {
 }
 
 module.exports={getAll,getOne,add,destroy,update,addOpinion,buy,addToHistory,getHistory}
+const getWithFilters=(req,res,next)=>{
+    let filters={}
+    if(req.body.author){
+        filters["author"]=req.body.author
+    }
+    if(req.body.from){
+        filters["price"]={$gt:req.body.from}
+    }
+    if(req.body.to){
+        filters["price"]={...filters["price"],$lt:req.body.to}
+    }
+    console.log(filters)
+    Books.find(filters,{})
+    .then(response=>{
+        res.json({
+            ...response
+        })
+    })
+    .catch(er=>{
+        res.json({message:"Error!"})
+    })
+}
+module.exports={getAll,getOne,add,destroy,update,addOpinion,buy, addToHistory,getWithFilters}

@@ -3,6 +3,7 @@ import { BooksContext } from "../../contexts/Books.context";
 import styled from "styled-components";
 import Book from "../Book"; 
 import { useForm } from "react-hook-form";
+import { getWithFilters } from "../../helpers/bookApi";
 const Div=styled.div`
     &:hover{
         background-color:rgb(255,255,255,0.5);
@@ -17,14 +18,29 @@ const FilterBar=styled.form`
 const getAuthors=(bookArray)=>{
     return ["",...new Set(bookArray.map(a=>a.author))]
 }
-const submit=(values)=>{
-    console.log(values)
-}
+
 function BookList(props){
-    const {booksArray,addBook,isLoading}=useContext(BooksContext);
+    const {booksArray,addBook,isLoading,getBooksWithFilters}=useContext(BooksContext);
     const [isFilter,isFilterSet]=useState(false);
     console.log(isFilter)
     const {handleSubmit,register,formState: { errors },watch}=useForm()
+
+    const submit=async(values)=>{
+        console.log(values)
+        let filters={}
+        if(values.from!=''){
+            filters['from']=Number(values.from)
+        }
+        if(values.to!=''){
+            filters['to']=Number(values.to)
+        }
+        if(values.author!=''){
+            filters['author']=values.author
+        }
+        console.log(filters)
+        getBooksWithFilters(filters)
+    }
+
     return(
         <div className="flex justify-center flex-col flex-wrap items-center md:flex-row md:gap-x-10 w-full relative">
             <Div className="text-white absolute left-0 text-3xl cursor-pointer" style={{padding:"0.6rem",top:"0.03rem"}} onClick={()=>{isFilterSet(!isFilter)}}>
@@ -54,7 +70,7 @@ function BookList(props){
                                 message:"tylko liczby"
                             },
                             validate: (val) => {
-                                if (watch('from') > val) {
+                                if (watch('from')!=''&&val!=''&&watch('from') > val) {
                                   return "błedne wartość";
                                 }
                               }})}/>
