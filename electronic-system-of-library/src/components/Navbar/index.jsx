@@ -15,6 +15,10 @@ function Navbar(){
             <Hlink className="absolute left-0 text-white flex justify-center items-center text-3xl" style={{padding:"0.65rem",textDecoration:"none"}} to="/basket">
                 <i className="fa-solid fa-cart-shopping"></i>
             </Hlink>
+            {isLogged&&
+                <Hlink className="absolute text-white flex justify-center items-center text-3xl" style={{padding:"0.65rem",textDecoration:"none",left: "54.53px"}} to="/history">
+                    <i class="fa-solid fa-clock-rotate-left"></i>            
+                </Hlink>}
             <div className="flex">
                 <Hlink className="text-3xl text-white" to='/' style={{padding:"0.4rem"}}><i className="fa-solid fa-house"></i></Hlink>
                 {isAdmin&&
@@ -24,11 +28,11 @@ function Navbar(){
                 {isLogged&&
                     <div className="mx-3 aling-self-center">{userName}</div>}    
                 {!isLogged&&
-                    <Link style={{padding:"0.75rem",textDecoration:"none"}} className='bg-sky-500 rounded hover:bg-sky-300 duration-200 text-white' to="/login" >
+                    <Link style={{padding:"0.75rem",textDecoration:"none"}} className='bg-sky-500 hover:bg-sky-300 duration-200 text-white' to="/login" >
                         LogIn
                     </Link>}
                 {isLogged&&
-                    <button style={{padding:"0.75rem"}} className='bg-sky-500 rounded hover:bg-sky-300 duration-200' onClick={logOut}>
+                    <button style={{padding:"0.75rem"}} className='bg-sky-500 hover:bg-sky-300 duration-200' onClick={logOut}>
                         LogOut
                     </button>}
             </div>

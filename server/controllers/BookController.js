@@ -67,7 +67,7 @@ const update=(req,res,next)=>{
         description:req.body.description,
         onStock:req.body.onStock,
         photo:req.body.photo,
-        price:req.body.price,
+        price:req.body.price
     }
     if(req.file){
         book.photo=req.file.path
@@ -214,4 +214,17 @@ const addToHistory = (req, res, next) => {
     res.json({message: "Success"})
 }
 
-module.exports={getAll,getOne,add,destroy,update,addOpinion,buy, addToHistory}
+const getHistory = (req, res, next) => {
+    Users.findOne({email: req.user.name})
+    .then(response => {
+        res.json({
+            data: response._doc.history,
+            message: "Success"
+        })
+    })
+    .catch(err => {
+        res.json({message: "Error"})
+    })
+}
+
+module.exports={getAll,getOne,add,destroy,update,addOpinion,buy,addToHistory,getHistory}

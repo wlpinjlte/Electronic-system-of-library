@@ -48,3 +48,11 @@ export const buyBooksFromServer = (books, token) => {
         }
     })
 }
+
+export const getHistory = (token) => {
+    return axios.get(`${URL}/getHistory`,{
+        headers:{
+            'Authorization': 'Bearer ' + token
+        }
+    })
+}

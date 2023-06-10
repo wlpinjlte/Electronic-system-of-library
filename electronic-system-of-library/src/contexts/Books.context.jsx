@@ -27,6 +27,10 @@ function BookContext(props){
             basketSet([...basket, book])
             totalSet(total + book.price)
         }
+        else{
+            basketSet(basket.map(x => x.id === book.id? {...x, quantity: x.quantity + 1} : x))
+            totalSet(total + book.price)
+        }
     }
     return(
         <BooksContext.Provider value={{booksArray:booksArray,addBook:addBook,isLoading:isLoading,booksArraySet:booksArraySet,basket:basket,total:total,totalSet:totalSet,basketSet:basketSet}}>

@@ -77,8 +77,8 @@ function BookForm(props){
         }
         if(book){
             console.log(book.data)
-            book.data.onStock = Number(book.onStock)
-            book.data.price = Number(book.price)
+            book.data.onStock = Number(book.data.onStock)
+            book.data.price = Number(book.data.price)
             console.log(book.data)
             booksArraySet([...booksArray.filter(a=>a._id!=bookId),book.data])
             navigate("/")

@@ -55,7 +55,7 @@ function Register(){
                         },
                         pattern:{
                             value:/^[A-Z][a-z]+$/,
-                            message:"Nieprawidłowa nazwa miejscowość"
+                            message:"Nieprawidłowa nazwa miejscowości"
                         }
                     })}/>
                     {errors.place&&<p className="text-red-600">{errors.place.message}</p>}

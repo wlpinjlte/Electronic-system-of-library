@@ -10,6 +10,8 @@ import Register from './components/Register';
 import SingleBookPage from './components/SingleBookPage';
 import Basket from './components/Basket';
 import {BrowserRouter,Routes,Route} from 'react-router-dom'
+import History from './components/History';
+
 function App() {
   return (
     <div className="App">
@@ -25,6 +27,7 @@ function App() {
               <Route path='/register' element={<Register></Register>}></Route>
               <Route path='/:bookId' element={<SingleBookPage></SingleBookPage>}></Route>
               <Route path = '/basket' element={<Basket></Basket>}></Route>
+              <Route path='/history' element={<History></History>}></Route>
             </Routes>
           </BrowserRouter>
         </UserContext>
