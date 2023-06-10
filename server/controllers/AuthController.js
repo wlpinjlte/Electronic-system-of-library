@@ -22,7 +22,13 @@ const register = (req, res, next) => {
                         email: req.body.email,
                         password: hashedPass,
                         name: req.body.name,
-                        isAdmin: false
+                        isAdmin: false,
+                        history:[],
+                        address:{
+                            street:req.body.street,
+                            number:req.body.number,
+                            place:req.body.place
+                        }
                     })
                 
                     user.save()

@@ -2,15 +2,23 @@ import { useContext } from "react";
 import { UsersContext } from "../../contexts/User.context";
 import { Link } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css'
+import styled from "styled-components";
+const Hlink=styled(Link)`
+    &:hover{
+        background-color:rgb(255,255,255,0.5);
+    }
+`
 function Navbar(){
     const {userName,isLogged,logIn,logOut,isAdmin}=useContext(UsersContext)
     return(
         <div className="Navbar w-full h-12 bg-orange-700 flex justify-center items-center text-white">
-            {isAdmin&&
-                <Link className="absolute left-0 text-3xl text-white font-bold flex justify-center items-center w-12" style={{textDecoration:"none"}} to="/add">+</Link>}
-            <Link className="absolute left-40 text-white flex justify-center items-center" style={{textDecoration:"none"}} to="/basket">basket</Link>
-            <div className="">
-                Menu
+            <Hlink className="absolute left-0 text-white flex justify-center items-center text-3xl" style={{padding:"0.65rem",textDecoration:"none"}} to="/basket">
+                <i className="fa-solid fa-cart-shopping"></i>
+            </Hlink>
+            <div className="flex">
+                <Hlink className="text-3xl text-white" to='/' style={{padding:"0.4rem"}}><i className="fa-solid fa-house"></i></Hlink>
+                {isAdmin&&
+                <Hlink className="text-3xl text-white font-bold flex justify-center items-center w-12" style={{padding:"0.4rem",textDecoration:"none"}} to="/add">+</Hlink>} 
             </div>
             <div className="flex items-center absolute right-0">
                 {isLogged&&

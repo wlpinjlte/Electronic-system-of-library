@@ -10,6 +10,7 @@ function Register(){
 
     const submit = async(values)=>{
         let result = await signUp(values)
+        // console.log(values)
         console.log(result)
         if(result === 'registered'){
             navigate('/login')
@@ -43,6 +44,51 @@ function Register(){
                         }
                     })}/>
                     {errors.email&&<p className="text-red-600">{errors.email.message}</p>}
+                </div>
+
+                <div className="form-outline mb-2">
+                    <label className="form-label" htmlFor="form2Example1">Place</label>
+                    <input type="place" id="form2Example1" className="form-control"  {...register("place",{
+                        required:{
+                            value:true,
+                            message:"Pole wymagane"
+                        },
+                        pattern:{
+                            value:/^[A-Z][a-z]+$/,
+                            message:"Nieprawidłowa nazwa miejscowość"
+                        }
+                    })}/>
+                    {errors.place&&<p className="text-red-600">{errors.place.message}</p>}
+                </div>
+
+                <div className="form-outline mb-2">
+                    <label className="form-label" htmlFor="form2Example1">Street</label>
+                    <input type="street" id="form2Example1" className="form-control"  {...register("street",{
+                        required:{
+                            value:true,
+                            message:"Pole wymagane"
+                        },
+                        pattern:{
+                            value:/^[A-Z][a-z]+$/,
+                            message:"Nieprawidłowa nazwa ulicy"
+                        }
+                    })}/>
+                    {errors.street&&<p className="text-red-600">{errors.street.message}</p>}
+                </div>
+
+                <div className="form-outline mb-2">
+                    <label className="form-label" htmlFor="form2Example1">Home number</label>
+                    <input type="home-number" id="form2Example1" className="form-control"  {...register("number",{
+                        required:{
+                            value:true,
+                            message:"Pole wymagane"
+                        },
+                        pattern:{
+                            value:/^[1-9]+[A-Z]*$/,
+                            message:"Nieprawidłowy numer mieszkania"
+                        }
+                    })}/>
+                    {errors.number&&<p className="text-red-600">{errors.number.message}</p>}
                 </div>
 
                 <div className="form-outline mb-2">
@@ -80,7 +126,7 @@ function Register(){
                     {errors.repeatPassword&&<p className="text-red-600">{errors.repeatPassword.message}</p>}
                 </div>
 
-                <button type="submit" className="w-1/3 bg-sky-500 mt-2 p-2 rounded self-center text-white">Sign up</button>
+                <button type="submit" className="w-1/3 bg-sky-500 mt-2 p-2 rounded self-center text-white hover:bg-sky-400">Sign up</button>
             </form>
         </div>
     )

@@ -5,7 +5,12 @@ const userSchema = new Schema({
     password: {type: String},
     name: {type: String},
     isAdmin: {type: Boolean},
-    history: []
+    history: [],
+    address:{
+        street:{type:String},
+        number:{type:String},
+        place:{type:String}
+    }
 }, {timestamps: true})
 
 const users = mongoose.model('User', userSchema)

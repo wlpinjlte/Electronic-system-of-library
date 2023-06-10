@@ -3,6 +3,18 @@ import { useParams } from "react-router-dom";
 import BookContext from "../../contexts/Books.context";
 import { addOpinionToBook, getOne } from "../../helpers/bookApi";
 import { useForm } from "react-hook-form";
+import styled from "styled-components";
+const Contianer=styled.div`
+    flex-direction:row;
+    @media(max-width:770px){
+        flex-direction:column;
+    }
+`
+const Formm=styled.form`
+    @media(max-width:770px){
+        margin-top:1rem;
+    }
+`
 function SingleBookPage(){
     const {bookId}=useParams();
     const [object,objectSet]=useState(false)
@@ -26,9 +38,10 @@ function SingleBookPage(){
     }
     console.log(object)
     return(
-        <div className="SingleBookPage flex justify-center items-center mt-40 relative">
+        <Contianer className="SingleBookPage flex justify-center items-center mt-40 relative md:felx-row lg:felx-row">
+            {!object&&<div className="text-white text-7xl">loading...</div>}
             {object&&<>
-            <div className="card w-1/4 relative">
+            <div className="card lg:w-1/4 md:w-1/3 relative w-5/6">
                 <img src={`http://localhost:3000/${object.photo}`} className="card-img-top h-96 object-cover"></img>
                 <div className="card-body">
                     <h5 className="card-title">title:{object.title}</h5>
@@ -46,7 +59,7 @@ function SingleBookPage(){
                     </div>
                 </div>
             </div>
-            <form className="card w-1/3 relative p-5 box-border duration-300 overflow-y-scroll" style={{minHeight:!isForm?"43rem":"30rem",maxHeight:"43rem"}} onSubmit={handleSubmit(submitOpinion)}>
+            <Formm className="card relative p-5 box-border duration-300 overflow-y-scroll lg:w-1/3 md:w-1/2 w-5/6" style={{minHeight:!isForm?"43rem":"30rem",maxHeight:"43rem"}} onSubmit={handleSubmit(submitOpinion)}>
             {!isForm&&
                 <>
                     <h1 className="card-title">Opinions</h1>
@@ -96,8 +109,8 @@ function SingleBookPage(){
                     {errors.rating&&<p className="text-red-600">{errors.rating.message}</p>}
                     <button className="absolute self-center bottom-3 text-white p-2 bg-sky-500 rounded" type='submit'>Submit Opinion</button>
                 </>}
-            </form></>}
-        </div>
+            </Formm></>}
+        </Contianer>
     )
 }
 export default SingleBookPage;
