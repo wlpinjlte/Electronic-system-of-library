@@ -227,7 +227,6 @@ const getHistory = (req, res, next) => {
     })
 }
 
-module.exports={getAll,getOne,add,destroy,update,addOpinion,buy,addToHistory,getHistory}
 const getWithFilters=(req,res,next)=>{
     let filters={}
     if(req.body.author){
@@ -250,4 +249,4 @@ const getWithFilters=(req,res,next)=>{
         res.json({message:"Error!"})
     })
 }
-module.exports={getAll,getOne,add,destroy,update,addOpinion,buy, addToHistory,getWithFilters}
+module.exports={getAll,getOne,add,destroy,update,addOpinion,buy, addToHistory,getWithFilters,getHistory}
