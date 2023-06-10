@@ -1,5 +1,6 @@
 import { createContext, useEffect, useState} from "react";
 import { getAll } from "../helpers/bookApi";
+import { getWithFilters } from "../helpers/bookApi";
 export const BooksContext=createContext();
 function BookContext(props){
     const [booksArray,booksArraySet]=useState([])
@@ -28,8 +29,14 @@ function BookContext(props){
             totalSet(total + book.price)
         }
     }
+    const getBooksWithFilters=async(filters)=>{
+        let reponse=await getWithFilters(filters)
+        let data=reponse.data
+        booksArraySet(Object.values(data))
+    }
+
     return(
-        <BooksContext.Provider value={{booksArray:booksArray,addBook:addBook,isLoading:isLoading,booksArraySet:booksArraySet,basket:basket,total:total,totalSet:totalSet,basketSet:basketSet}}>
+        <BooksContext.Provider value={{booksArray:booksArray,addBook:addBook,isLoading:isLoading,booksArraySet:booksArraySet,basket:basket,total:total,totalSet:totalSet,basketSet:basketSet,getBooksWithFilters:getBooksWithFilters}}>
             {children}
         </BooksContext.Provider>
     )
