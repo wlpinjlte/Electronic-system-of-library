@@ -4,43 +4,51 @@ import './style.css';
 import { MdDelete } from "react-icons/md"
 
 function BasketProduct(props){
-    const {id,title,author,onStock,photo,price,quantity}=props
-    const {basket, basketSet, total, totalSet}=useContext(BooksContext)
+    const {obj}=props
+    const {basket, basketSet, total, totalSet, booksArray}=useContext(BooksContext)
+    const id = obj[0]
+    const quantity = obj[1]
+    const book = booksArray.find(book => book._id === id)
 
     const plus = () => {
-        basketSet(basket.map(book => book.id === id? {...book, quantity: quantity+1} : book))
-        totalSet(total + price)
+        const x = {...basket}
+        x[id]++
+        basketSet(x)
+        totalSet(total + book.price)
     }
     
     const minus = () => {
         if(quantity === 1) removeProduct()
         else{
-            basketSet(basket.map(book => book.id === id? {...book, quantity: quantity-1} : book))
-            totalSet(total - price)
+            const x = {...basket}
+            x[id]--
+            basketSet(x)
+            totalSet(total - book.price)
         }
         
     }
 
     const removeProduct = () => {
-        const index = basket.findIndex(x => x.id === id)
-        basketSet(basket.toSpliced(index, 1))
-        totalSet(total - quantity*price)
+        const x = {...basket}
+        delete x[id]
+        basketSet(x)
+        totalSet(total - quantity * book.price)
     }
     
     return(
         <div>
             <div className="box">
                 <div className="left">
-                    <img className="photo" src={`http://localhost:3000/${photo}`}></img>
+                    <img className="photo" src={`http://localhost:3000/${book.photo}`}></img>
                     <div className="name">
                         <div>
-                            <p className="font-bold text-lg">{title}</p>
-                            <p>{author}</p>
+                            <p className="font-bold text-lg mb-0">{book.title}</p>
+                            <p>{book.author}</p>
                         </div>
-                        <p className="text-sm">units on stock: {onStock}</p>
+                        <p className="text-sm mb-0">units on stock: {book.onStock}</p>
                     </div>
                 </div>
-                <p className="font-bold text-lg">${price}</p>
+                <p className="font-bold text-lg">${book.price}</p>
                 <div className="flex">
                     <div className="n" onClick={plus}>+</div>
                     <div className="quantity">{quantity}</div>

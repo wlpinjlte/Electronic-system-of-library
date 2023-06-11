@@ -4,6 +4,8 @@ import BookContext from "../../contexts/Books.context";
 import { addOpinionToBook, getOne } from "../../helpers/bookApi";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+
 const Contianer=styled.div`
     flex-direction:row;
     @media(max-width:770px){
@@ -20,9 +22,14 @@ function SingleBookPage(){
     const [object,objectSet]=useState(false)
     const [isForm,isFormSet]=useState(false)
     const {handleSubmit,register,formState: { errors }}=useForm()
+    const navigate = useNavigate()
+
     useEffect(()=>{
         let downloadContent=async()=>{
             let book=await getOne(bookId)
+            if(book.data.message === 'Error!'){
+                navigate('/')
+            }
             objectSet(book.data)
         }
         downloadContent()

@@ -11,7 +11,14 @@ import { refreshTokenToServer } from "../../helpers/userApi";
 function BookForm(props){
     let {bookId}=useParams()
     const [object,objectSet]=useState(false)
+    const {booksArray,booksArraySet}=useContext(BooksContext)
+    const navigate=useNavigate()
+    const {token, refreshToken, tokenSet, isLogged} = useContext(UsersContext)
+
     useEffect(()=>{
+        if(!isLogged){
+            navigate('/login')
+        }
         if(bookId){
             const DownloadData=async()=>{
                 let data=await getOne(bookId)
@@ -20,10 +27,7 @@ function BookForm(props){
             DownloadData()
         }
     },[])
-    const {booksArray,booksArraySet}=useContext(BooksContext)
-    const navigate=useNavigate()
-    const {token, refreshToken, tokenSet} = useContext(UsersContext)
-
+    
     const addBook=async(values)=>{
         const bodyFormData = new FormData();
         bodyFormData.append('file', values.file[0]);
@@ -32,6 +36,7 @@ function BookForm(props){
             bodyFormData.append(key,values[key])}
         })
         let book = await addBookToServer(bodyFormData, token)
+        console.log(book.data.message)
         if(book.data.message==="Token expired!"){
             let response = await refreshTokenToServer({refreshToken: refreshToken})
             tokenSet(response.data.token)
@@ -56,6 +61,7 @@ function BookForm(props){
             bodyFormData.append(key,values[key])}
         })
         let book=await updateBookOnServer(bodyFormData, token)
+        console.log(book.data.message)
         if(book.data.message==="Token expired!"){
             let response = await refreshTokenToServer({refreshToken: refreshToken})
             tokenSet(response.data.token)

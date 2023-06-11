@@ -1,11 +1,12 @@
 import { useForm } from "react-hook-form";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { UsersContext } from "../../contexts/User.context"
 import { useNavigate } from "react-router-dom";
 
 function Register(){
     const {handleSubmit,register,formState: { errors },watch}=useForm();
     const {register: signUp} = useContext(UsersContext)
+    const [error, errorSet] = useState(false)
     const navigate = useNavigate()
 
     const submit = async(values)=>{
@@ -14,6 +15,9 @@ function Register(){
         console.log(result)
         if(result === 'registered'){
             navigate('/login')
+        }
+        else if(result === 'email'){
+            errorSet(true)
         }
     }
     return(
@@ -44,6 +48,7 @@ function Register(){
                         }
                     })}/>
                     {errors.email&&<p className="text-red-600">{errors.email.message}</p>}
+                    {error&&!errors.email&& <p className="text-red-600">Ten adres jest już zajęty</p>}
                 </div>
 
                 <div className="form-outline mb-2">
@@ -118,7 +123,7 @@ function Register(){
                             message:"Minimum 8 znaków"
                         },
                         validate: (val) => {
-                            if (watch('password') != val) {
+                            if (watch('password') !== val) {
                               return "Your passwords do no match";
                             }
                           }

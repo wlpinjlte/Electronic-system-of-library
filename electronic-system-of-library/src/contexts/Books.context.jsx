@@ -23,15 +23,16 @@ function BookContext(props){
 
     const {children}=props;
 
-    const addBook=(book)=>{
-        if(!basket.some(x => x.id === book.id)){
-            basketSet([...basket, book])
-            totalSet(total + book.price)
+    const addBook=(id)=>{
+        const x = {...basket}
+        if(id in basket){
+            x[id]++
         }
         else{
-            basketSet(basket.map(x => x.id === book.id? {...x, quantity: x.quantity + 1} : x))
-            totalSet(total + book.price)
+            x[id] = 1
         }
+        basketSet(x)
+        totalSet(total + booksArray.find(book => book._id === id).price)
     }
     const getBooksWithFilters=async(filters)=>{
         let reponse=await getWithFilters(filters)

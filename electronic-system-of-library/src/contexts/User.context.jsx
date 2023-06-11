@@ -1,14 +1,13 @@
-import { createContext,useEffect,useState } from "react"
+import { createContext,useState } from "react"
 import { registerToServer } from "../helpers/userApi";
 import { logInToServer } from "../helpers/userApi";
-
 export const UsersContext=createContext();
+
 function UserContext(props){
     const [userName,userNameSet]=useState("userName");
     const [isLogged,isLoggedSet]=useState(false);
     const [token, tokenSet]=useState("");
     const [refreshToken, refreshTokenSet]=useState("");
-
     const [isAdmin, isAdminSet] = useState(false)
     const {children}=props
 
@@ -33,6 +32,8 @@ function UserContext(props){
         console.log("logout")
         isLoggedSet(false)
         isAdminSet(false)
+        tokenSet("")
+        refreshTokenSet("")
     }
 
     const register = async(data) => {

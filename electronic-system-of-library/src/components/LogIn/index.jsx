@@ -1,19 +1,22 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { UsersContext } from "../../contexts/User.context"
 
 function LogIn(props){
     const {logIn} = useContext(UsersContext)
     const {handleSubmit,register,formState: { errors }}=useForm()
+    const [error, errorSet] = useState(false)
     const navigate = useNavigate()
 
     const submit = async(values) => {
         let result = await logIn(values)
         console.log(result)
         if(result === 'loggedIn'){
-            console.log('sdfgsdfg')
             navigate('/')
+        }
+        else{
+            errorSet(true)
         }
     }
     return(
@@ -48,6 +51,7 @@ function LogIn(props){
                         }
                     })}/>
                     {errors.password&&<p className="text-red-600">{errors.password.message}</p>}
+                    {error&& <p className="text-red-600">Nieprawidłowy e-mail lub hasło</p>}
                 </div>
 
                 <button type="submit" className="w-1/3 bg-sky-500 mb-4 p-2 rounded self-center text-white">Sign in</button>

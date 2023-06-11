@@ -3,13 +3,23 @@ import { UsersContext } from "../../contexts/User.context";
 import { Link } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css'
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+
 const Hlink=styled(Link)`
     &:hover{
         background-color:rgb(255,255,255,0.5);
     }
 `
+
+
 function Navbar(){
-    const {userName,isLogged,logIn,logOut,isAdmin}=useContext(UsersContext)
+    const {userName,isLogged,logOut,isAdmin}=useContext(UsersContext)
+    const navigate = useNavigate()
+    const signOut = () => {
+        logOut()
+        navigate('/login')
+    }
+
     return(
         <div className="Navbar w-full h-12 bg-orange-700 flex justify-center items-center text-white">
             <Hlink className="absolute left-0 text-white flex justify-center items-center text-3xl" style={{padding:"0.65rem",textDecoration:"none"}} to="/basket">
@@ -32,7 +42,7 @@ function Navbar(){
                         LogIn
                     </Link>}
                 {isLogged&&
-                    <button style={{padding:"0.75rem"}} className='bg-sky-500 hover:bg-sky-300 duration-200' onClick={logOut}>
+                    <button style={{padding:"0.75rem"}} className='bg-sky-500 hover:bg-sky-300 duration-200' onClick={signOut}>
                         LogOut
                     </button>}
             </div>

@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import styled from "styled-components";
 import {UsersContext} from '../../contexts/User.context'
 import { deleteBookFromServer } from "../../helpers/bookApi";
@@ -12,36 +12,33 @@ const Container=styled.div`
     transition:0.5s;
 `
 const Button=styled.button`
-    background-color:${props=>props.onStock==0? "grey":"default"};
+    background-color:${props=>props.onStock===0? "grey":"default"};
 `
 function Book(props){
     const navigate=useNavigate()
     const {isAdmin, token, refreshToken, tokenSet}=useContext(UsersContext)
-    const {booksArray,booksArraySet}=useContext(BooksContext)
+    const {booksArray, booksArraySet, basket, basketSet, total, totalSet}=useContext(BooksContext)
     const {title,author,description,onStock,addbook,_id,photo,price}=props
     const addToCart=()=>{
-        const book = {
-            id: _id,
-            title: title,
-            author: author,
-            onStock: onStock,
-            photo: photo,
-            price: price,
-            quantity: 1
-        }
-        addbook(book);
+        addbook(_id);
     }
     const deleteBook=async(token)=>{
         console.log(token)
-        let response=await deleteBookFromServer(_id, token)
+        let response = await deleteBookFromServer(_id, token)
         console.log(response.data.message)
         if(response.data.message==="Token expired!"){
-            response = await refreshTokenToServer({refreshToken: refreshToken})
-            tokenSet(response.data.token)
-            deleteBook(response.data.token)
+            const res = await refreshTokenToServer({refreshToken: refreshToken})
+            tokenSet(res.data.token)
+            response = await deleteBookFromServer(_id, res.data.token)
         }
-        else if(response.data.message==="Delete succeed!"){
-            booksArraySet(booksArray.filter(a=>a._id!=_id))
+        if(response.data.message==="Delete succeed!"){
+            if(_id in basket){
+                totalSet(total - basket[_id] * price)
+                const b = {...basket}
+                delete b[_id]
+                basketSet(b)
+            }
+            booksArraySet(booksArray.filter(a=>a._id!==_id))
         }
     }
     return(
@@ -52,7 +49,7 @@ function Book(props){
             <p className=" text-sm px-5">{description}</p>
             <Button className="p-2 bg-sky-500 rounded w-1/2 self-center text-white" onStock={onStock} onClick={addToCart} disabled={onStock===0}>dodaj do koszyka</Button>
             <p className="mb-3 mt-1 font-bold">${price}</p>
-            <p className="mb-3 mt-1 text-xs">onStock: {onStock}</p>
+            <p className="mb-3 mt-1 text-xs">units on stock: {onStock}</p>
             {isAdmin&&<button onClick={() => deleteBook(token)} className="absolute right-2 top-0 font-bold text-2xl text-white">X</button>}
             {isAdmin&&<i className="fa-solid fa-pencil absolute left-2 top-0 font-bold text-2xl text-white cursor-pointer" onClick={()=>{navigate(`/edit/${_id}`)}}></i>}
         </Container>
