@@ -42,7 +42,7 @@ function BookForm(props){
             tokenSet(response.data.token)
             book = await addBookToServer(bodyFormData, response.data.token)
         }
-        else if(book.data.message){
+        if(book.data.message){
             book = null
         }
         return book
@@ -62,12 +62,12 @@ function BookForm(props){
         })
         let book=await updateBookOnServer(bodyFormData, token)
         console.log(book.data.message)
-        if(book.data.message==="Token expired!"){
+        if(book.data.message === "Token expired!"){
             let response = await refreshTokenToServer({refreshToken: refreshToken})
             tokenSet(response.data.token)
             book = await updateBookOnServer(bodyFormData, response.data.token)
         }
-        else if(book.data.message){
+        if(book.data.message){
             book = null
         }
         return book
@@ -88,9 +88,6 @@ function BookForm(props){
             console.log(book.data)
             booksArraySet([...booksArray.filter(a=>a._id!=bookId),book.data])
             navigate("/")
-        }
-        else{
-            navigate("/login")
         }
     }
 
