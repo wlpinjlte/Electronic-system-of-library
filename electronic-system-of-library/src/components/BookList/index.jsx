@@ -12,7 +12,7 @@ const Div=styled.div`
 
 const FilterBar=styled.form`
     width:15rem;
-    height:95vh;
+    height:290vh;
     transform:${({isFilter})=>isFilter?"translateX(0)":"translateX(-15rem)"}
 `
 const getAuthors=(bookArray)=>{
@@ -23,7 +23,7 @@ function BookList(props){
     const {booksArray,addBook,isLoading,getBooksWithFilters}=useContext(BooksContext);
     const [isFilter,isFilterSet]=useState(false);
     console.log(isFilter)
-    const {handleSubmit,register,formState: { errors },watch}=useForm()
+    const {handleSubmit,register,formState: { errors },watch,reset}=useForm()
 
     const submit=async(values)=>{
         console.log(values)
@@ -36,6 +36,13 @@ function BookList(props){
         }
         if(values.author!=''){
             filters['author']=values.author
+        }
+        if(values.sort=='Cena rosnąco'){
+            filters['sort']={price:1}
+        }else if(values.sort=='Cena malejąco'){
+            filters['sort']={price:-1}
+        }else if(values.sort=='Autor alfabetycznie'){
+            filters['sort']={author:1}
         }
         console.log(filters)
         getBooksWithFilters(filters)
@@ -87,8 +94,21 @@ function BookList(props){
                         ))}
                     </select>
                 </div>
+                <div className="text-2xl mt-1 flex justify-center flex-col items-center">
+                    <label className="label-form">Sortuj</label>
+                    <select className="form-control mt-2" style={{width:"80%"}}
+                    {...register("sort")}>
+                        <option></option>
+                        <option>Cena rosnąco</option>
+                        <option>Cena malejąco</option>
+                        <option>Autor alfabetycznie</option>
+                    </select>
+                </div>
                 <button style={{padding:"0.7rem"}} className='bg-sky-500 rounded hover:bg-sky-300 duration-200 text-white text-2xl w-4/5 self-center mt-3' type="submit">
                         Filtruj
+                </button>
+                <button style={{padding:"0.7rem"}} className='bg-orange-700 rounded hover:bg-orange-500 duration-200 text-white text-2xl w-4/5 self-center mt-3' onClick={()=>reset()}>
+                        Reset
                 </button>
             </FilterBar>
             {isLoading&&

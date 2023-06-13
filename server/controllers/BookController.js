@@ -224,6 +224,7 @@ const getBestSeller=(req,res,next)=>{
 
 const getWithFilters=(req,res,next)=>{
     let filters={}
+    let sort={}
     if(req.body.author){
         filters["author"]=req.body.author
     }
@@ -233,8 +234,11 @@ const getWithFilters=(req,res,next)=>{
     if(req.body.to){
         filters["price"]={...filters["price"],$lt:req.body.to}
     }
+    if(req.body.sort){
+        sort[Object.keys(req.body.sort)[0]]=Object.values(req.body.sort)[0]
+    }
     // console.log(filters)
-    Books.find(filters,{})
+    Books.find(filters,{}).sort(sort)
     .then(response=>{
         res.json({
             ...response
