@@ -1,11 +1,8 @@
-// const { response } = require("express")
-// const { response } = require("express")
 const { response } = require("express")
 const mongoose=require("mongoose")
 const Books=require("../models/Books")
 const Users=require("../models/User")
-// const { default: Book } = require("../../electronic-system-of-library/src/components/Book")
-// import { ObjectId } from "mongoose"
+
 
 const getAll=(req,res,next)=>{
     Books.find()
@@ -37,7 +34,6 @@ const getOne=(req,res,next)=>{
 }
 //title author description onStock id photo price
 const add=(req,res,next)=>{
-    // console.log(req)
     let book=new Books({
         title:req.body.title,
         author:req.body.author,
@@ -218,7 +214,7 @@ const getBestSeller=(req,res,next)=>{
             res.json({...response[0]})
         })
         .catch(er=>{
-        res.json({message:"Error!"})
+            res.json({message:"Error!"})
     })
 }
 
