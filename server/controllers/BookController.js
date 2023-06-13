@@ -1,10 +1,11 @@
 // const { response } = require("express")
 // const { response } = require("express")
 const { response } = require("express")
+const mongoose=require("mongoose")
 const Books=require("../models/Books")
 const Users=require("../models/User")
 // const { default: Book } = require("../../electronic-system-of-library/src/components/Book")
-
+// import { ObjectId } from "mongoose"
 
 const getAll=(req,res,next)=>{
     Books.find()
@@ -140,9 +141,7 @@ const addToHistory = (req, res, next) => {
     const date = new Date()
     for(const book of req.body){
         const single = {
-            photo: book.photo,
-            title: book.title,
-            author: book.author,
+            bookId:new mongoose.Types.ObjectId(book._id),
             price: book.price,
             quantity: book.quantity,
             date: date
@@ -153,15 +152,73 @@ const addToHistory = (req, res, next) => {
 }
 
 const getHistory = (req, res, next) => {
-    Users.findOne({email: req.user.name})
+    Users.aggregate([
+        {$match:{
+            email: req.user.name
+        }},
+        {$unwind:"$history"},
+        {$addFields: {
+           bookIds: "$history.bookId"
+        }},
+        {$lookup:{
+            from:"books",
+            localField:"bookIds",
+            foreignField:"_id",
+            as:"data"
+        }},
+        {$unwind:"$data"},
+        {$project:{
+            name:"$data.name",
+            title:"$data.title",
+            author:"$data.author",
+            price:"$history.price",
+            date:"$history.date",
+            photo:"$data.photo",
+            quantity:"$history.quantity"
+        }}])
     .then(response => {
+        console.log(response)
         res.json({
-            data: response._doc.history,
+            data: [...response],
             message: "Success"
         })
     })
     .catch(err => {
         res.json({message: "Error"})
+    })
+}
+
+const getBestSeller=(req,res,next)=>{
+    Users.aggregate([
+        {$unwind:"$history"},
+        {$addFields: {
+           bookIds: "$history.bookId"
+        }},
+        {$lookup:{
+            from:"books",
+            localField:"bookIds",
+            foreignField:"_id",
+            as:"data"
+        }},
+        {$unwind:"$data"},
+        {$group:{
+            _id:"$data._id",
+            counter:{
+                $sum: "$history.quantity"
+            }
+        }},
+        {$sort:{
+           counter: -1
+        }},
+        {$limit: 1},
+        {$project:{
+            counter: 0
+        }}])
+        .then(response=>{
+            res.json({...response[0]})
+        })
+        .catch(er=>{
+        res.json({message:"Error!"})
     })
 }
 
@@ -176,7 +233,7 @@ const getWithFilters=(req,res,next)=>{
     if(req.body.to){
         filters["price"]={...filters["price"],$lt:req.body.to}
     }
-    console.log(filters)
+    // console.log(filters)
     Books.find(filters,{})
     .then(response=>{
         res.json({
@@ -187,4 +244,4 @@ const getWithFilters=(req,res,next)=>{
         res.json({message:"Error!"})
     })
 }
-module.exports={getAll,getOne,add,destroy,update,addOpinion,buy, addToHistory,getWithFilters,getHistory}
+module.exports={getAll,getOne,add,destroy,update,addOpinion,buy, addToHistory,getWithFilters,getHistory,getBestSeller}

@@ -19,6 +19,7 @@ function History(props){
                 navigate('/login')
             }
             let response = await getHistory(token)
+            console.log(response);
             console.log(response.data)
             if(response.data.message==="Token expired!"){
                 const res = await refreshTokenToServer({refreshToken: refreshToken})

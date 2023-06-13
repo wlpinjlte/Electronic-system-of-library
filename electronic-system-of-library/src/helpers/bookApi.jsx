@@ -60,3 +60,7 @@ export const getHistory = (token) => {
 export const getWithFilters=(filters)=>{
     return axios.post(`${URL}/getWithFilters`,filters)
 }
+
+export const getBestSeller=()=>{
+    return axios.get(`${URL}/getBestseller`)
+}

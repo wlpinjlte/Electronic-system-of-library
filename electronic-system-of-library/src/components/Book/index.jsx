@@ -17,7 +17,7 @@ const Button=styled.button`
 function Book(props){
     const navigate=useNavigate()
     const {isAdmin, token, refreshToken, tokenSet}=useContext(UsersContext)
-    const {booksArray, booksArraySet, basket, basketSet, total, totalSet}=useContext(BooksContext)
+    const {booksArray, booksArraySet, basket, basketSet, total, totalSet,bestSellerId}=useContext(BooksContext)
     const {title,author,description,onStock,addbook,_id,photo,price}=props
     const addToCart=()=>{
         addbook(_id);
@@ -44,7 +44,12 @@ function Book(props){
     return(
         <Container className="flex flex-col justify-between lg:w-1/5 md:w-5/12 w-3/4 my-11 rounded hover:scale-105 hover:shadow-white relative" style={{height:"50rem"}}>
             <img className="w-full w-auto rounded-t object-cover cursor-pointer" src={`http://localhost:3000/${photo}`} onClick={()=>{navigate(`/${_id}`)}}></img>
-            <p className="text-2xl font-bold my-2 px-5">{title}</p>
+            
+            <p className="text-2xl font-bold my-2 px-5 relative text-center flex justify-center">
+                {title}
+                {bestSellerId===_id&&
+                    <p className="text-xs text-red-600 font-bold">BESTSELLER</p>}
+            </p>
             <p className="text-base px-5">{author}</p>
             {/* <p className=" text-sm px-5">{description}</p> */}
             <Button className="p-2 bg-sky-500 rounded w-1/2 self-center text-white" onStock={onStock} onClick={addToCart} disabled={onStock===0}>Add to cart</Button>

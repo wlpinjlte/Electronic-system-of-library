@@ -1,12 +1,13 @@
 import { createContext, useEffect, useState} from "react";
 import { getAll } from "../helpers/bookApi";
-import { getWithFilters } from "../helpers/bookApi";
+import { getWithFilters,getBestSeller } from "../helpers/bookApi";
 export const BooksContext=createContext();
 function BookContext(props){
     const [booksArray,booksArraySet]=useState([])
     const [isLoading,isLoadingSet]=useState(true)
     const [basket, basketSet] = useState([])
     const [total, totalSet] = useState(0)
+    const [bestSellerId,bestSellerIdSet]=useState('')
     //title author describe onStock id photo price
     //id title author 
     useEffect(()=>{
@@ -18,7 +19,13 @@ function BookContext(props){
             booksArraySet(Object.values(data))
             isLoadingSet(false)
         }
+        const bestSeller=async()=>{
+            let data=await getBestSeller();
+            bestSellerIdSet(data.data._id)
+            console.log(bestSellerId)
+        }
         get()
+        bestSeller()
     },[])
 
     const {children}=props;
@@ -41,7 +48,7 @@ function BookContext(props){
     }
 
     return(
-        <BooksContext.Provider value={{booksArray:booksArray,addBook:addBook,isLoading:isLoading,booksArraySet:booksArraySet,basket:basket,total:total,totalSet:totalSet,basketSet:basketSet,getBooksWithFilters:getBooksWithFilters}}>
+        <BooksContext.Provider value={{booksArray:booksArray,addBook:addBook,isLoading:isLoading,booksArraySet:booksArraySet,basket:basket,total:total,totalSet:totalSet,basketSet:basketSet,getBooksWithFilters:getBooksWithFilters,bestSellerId:bestSellerId}}>
             {children}
         </BooksContext.Provider>
     )
