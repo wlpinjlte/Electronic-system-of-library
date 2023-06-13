@@ -72,7 +72,7 @@ function SingleBookPage(){
                     <h1 className="card-title">Opinions</h1>
                     {object.opinions?.map(opinion=>(
                         <div className="border-2 border-stone-800 rounded w-5/6 self-center p-2 mt-2">
-                            <h5 className="text-left">author:{opinion.author}</h5>
+                            <h5 className="text-left">{opinion.author}</h5>
                             <div className="text-left">{opinion.content}</div>
                             <div className="flex text-yellow-500 justify-end">
                                 {Array.from({ length: opinion.rating }, (_, index) => index).map(liczba=>(

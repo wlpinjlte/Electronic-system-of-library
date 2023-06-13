@@ -3,13 +3,13 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 100px;
+    height: 130px;
     width: 100%;
     color: white;
 }
 
 .photo{
-    height: 100px;
+    height: 130px;
     width: 100px;
     margin-right: 15px;
 }
