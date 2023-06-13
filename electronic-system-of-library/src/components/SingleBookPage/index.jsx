@@ -45,15 +45,15 @@ function SingleBookPage(){
     }
     console.log(object)
     return(
-        <Contianer className="SingleBookPage flex justify-center items-center mt-40 relative md:felx-row lg:felx-row">
+        <Contianer className="SingleBookPage flex justify-center items-center my-20 relative md:felx-row lg:felx-row">
             {!object&&<div className="text-white text-7xl">loading...</div>}
             {object&&<>
             <div className="card lg:w-1/4 md:w-1/3 relative w-5/6">
-                <img src={`http://localhost:3000/${object.photo}`} className="card-img-top h-96 object-cover"></img>
+                <img src={`http://localhost:3000/${object.photo}`} className="card-img-top object-cover"></img>
                 <div className="card-body">
-                    <h5 className="card-title">title:{object.title}</h5>
+                    <h4 className="card-title">{object.title}</h4>
                     <div className="card-text">
-                        author:{object.author}
+                        {object.author}
                     </div>
                     <div className="card-text">
                         {object.description}
